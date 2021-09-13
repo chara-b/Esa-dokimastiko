@@ -58,9 +58,45 @@ export default function Wellbore() {
   return (
     <Dashboard>  
       <Grid container spacing={1} className={classes.fullHeight}>
-              <Grid item xs={12} md={5} container spacing={2}> 
-                <Grid item xs={5}>
+              <Grid item xs={12} md={6} container spacing={2} style={{backgroundColor: 'black'}}>  
+                <Grid item xs={4}>
                   <EsaList title="Wells">
+                    <List>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
+                        option => (
+                          <ListItem
+                            key={option}
+                            className={classes.listItem}
+                            selected={isSelected(option)}
+                            onClick={() => handleSelect(option)}
+                          >
+                          <ListItemText primary={`item-${option}`} />
+                          </ListItem>
+                        )
+                      )}
+                    </List>
+                  </EsaList>
+                </Grid>
+                <Grid item xs={4}>
+                  <EsaList title="Logs">
+                    <List>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
+                        option => (
+                          <ListItem
+                            key={option}
+                            className={classes.listItem}
+                            selected={isSelected(option)}
+                            onClick={() => handleSelect(option)}
+                          >
+                          <ListItemText primary={`item-${option}`} />
+                          </ListItem>
+                        )
+                      )}
+                    </List>
+                  </EsaList>
+                </Grid>
+                <Grid item xs={4}>
+                  <EsaList title="Formations">
                     <List>
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
                         option => (
@@ -79,7 +115,7 @@ export default function Wellbore() {
                 </Grid>
               </Grid>
       
-              <Grid item xs={12} md={7}>
+              <Grid item xs={12} md={6} style={{backgroundColor: 'blue'}}>
                 <div className={classes.logoContainer}>
                   <EsaLogo />
                 </div>

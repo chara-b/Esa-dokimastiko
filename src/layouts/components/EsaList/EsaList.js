@@ -19,7 +19,7 @@ const styles = theme => ({
     },
     portletContent: {
       height: 0,
-      minHeight: 400,
+      minHeight: 500,
       display: 'flex',
       flexDirection: 'column'
     },
