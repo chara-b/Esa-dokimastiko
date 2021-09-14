@@ -32,7 +32,7 @@ const styles = theme => ({
   
 const EsaList = props => {
 
-    const { classes, className, title, children, ...rest } = props;
+    const { classes, className, title, minheight, children, ...rest } = props;
     //const rootClassName = classNames(classes.root, className);
   
     return (

@@ -2,6 +2,7 @@ import React, { useState }  from 'react';
 import Dashboard from '../layouts/Dashboard/Dashboard';
 import { Typography } from '@material-ui/core';
 import EsaList from '../layouts/components/EsaList/EsaList';
+import EsaButton from '../layouts/components/EsaButton/EsaButton';
 import { makeStyles, Grid, List, ListItem, ListItemText } from '@material-ui/core';
 import EsaLogo from '../EsaLogo';
 
@@ -22,6 +23,9 @@ const styles = theme => ({
     '& svg': {
       width: '30%'
     }
+  },
+  list: {
+    height: '80%'
   },
   listItem: {
     cursor: 'pointer',
@@ -60,7 +64,7 @@ export default function Wellbore() {
       <Grid container spacing={1} className={classes.fullHeight}>
               <Grid item xs={12} md={6} container spacing={2} style={{backgroundColor: 'black'}}>  
                 <Grid item xs={4}>
-                  <EsaList title="Wells">
+                  <EsaList title="Wells" >
                     <List>
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
                         option => (
@@ -78,7 +82,7 @@ export default function Wellbore() {
                   </EsaList>
                 </Grid>
                 <Grid item xs={4}>
-                  <EsaList title="Logs">
+                  <EsaList title="Logs" >
                     <List>
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
                         option => (
@@ -96,7 +100,7 @@ export default function Wellbore() {
                   </EsaList>
                 </Grid>
                 <Grid item xs={4}>
-                  <EsaList title="Formations">
+                  <EsaList title="Formations" >
                     <List>
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
                         option => (
@@ -112,10 +116,13 @@ export default function Wellbore() {
                       )}
                     </List>
                   </EsaList>
+                  <EsaButton fullWidth className={classes.button}>
+                    Show Plot
+                  </EsaButton>
                 </Grid>
               </Grid>
       
-              <Grid item xs={12} md={6} style={{backgroundColor: 'blue'}}>
+              <Grid item xs={12} md={6} container spacing={2} style={{backgroundColor: 'blue'}}>
                 <div className={classes.logoContainer}>
                   <EsaLogo />
                 </div>
