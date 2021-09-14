@@ -1,6 +1,5 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import Dashboard from '../layouts/Dashboard/Dashboard';
-import { Typography } from '@material-ui/core';
 import EsaList from '../layouts/components/EsaList/EsaList';
 import EsaButton from '../layouts/components/EsaButton/EsaButton';
 import { makeStyles, Grid, List, ListItem, ListItemText } from '@material-ui/core';
@@ -48,36 +47,100 @@ export default function Wellbore() {
   const [selectedOptionsLogs, setSelectLogs] = useState([]);
   const [selectedOptionsFormations, setSelectFormations] = useState([]);
 
-  const handleSelectWells = value => {
-    const currentIndex = selectedOptionsWells.indexOf(value);
-    const newSelectedOptions = [...selectedOptionsWells];
-    if (currentIndex === -1) {
-      newSelectedOptions.push(value);
-    } else {
-      newSelectedOptions.splice(currentIndex, 1);
-    }
-    setSelectWells(newSelectedOptions);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [newSelectedOptionsWells, setnewSelectedOptionsWells] = useState([]);
+  const [newSelectedOptionsLogs, setnewSelectedOptionsLogs] = useState([]);
+  const [newSelectedOptionsFormations, setnewSelectedOptionsFormations] = useState([]);
+
+  const [Wells, setWells] = useState([]);
+  const [Logs, setLogs] = useState([]);
+  const [Formations, setFormations] = useState([]);
+
+  useEffect(() => {    
+    // Fetch wells
+    fetch('http://localhost:3000/wells').then(wells => {
+	    if (wells.ok) {
+		    return wells.json();
+	    } else {
+		    return Promise.reject(wells);
+	    }
+    }).then(wells => setWells(wells))
+    .then(() => {
+	    // Fetch logs after fetching wells
+	    return fetch('http://localhost:3000/logs').then(logs => {
+        if (logs.ok) {
+          return logs.json();
+        } else {
+          return Promise.reject(logs);
+        };
+        }).then(logs => setLogs(logs))})
+    .then(() => {
+	    // Fetch formations 
+	    return fetch('http://localhost:3000/formations').then(formations => {
+        if (formations.ok) {
+          return formations.json();
+        } else {
+          return Promise.reject(formations);
+        };
+        }).then(formations => setFormations(formations))})
+    .catch(function (error) {
+	      console.log(error);
+    });
+  });
+
+  const handleSelect = (value, portletselected)  => {
+
+    switch(portletselected) {
+      case 'wells':
+   
+        setCurrentIndex(selectedOptionsWells.indexOf(value));
+        setnewSelectedOptionsWells([...selectedOptionsWells]);
+        if (currentIndex === -1 || currentIndex === null) {
+          newSelectedOptionsWells.push(value);
+        } else {
+          newSelectedOptionsWells.splice(currentIndex, 1);
+        }
+        setSelectWells(newSelectedOptionsWells);
+        // clean the consts currentIndex 
+        // so we don't get any conflict between cases from values saved inside the state of 
+        // these consts from previous selections
+        //setCurrentIndex(null);
+    
+        break;
+      
+      case 'logs':
+        
+        setCurrentIndex(selectedOptionsLogs.indexOf(value));
+        setnewSelectedOptionsLogs([...selectedOptionsLogs]);
+        if (currentIndex === -1 || currentIndex === null) {
+          newSelectedOptionsLogs.push(value);
+        } else {
+          newSelectedOptionsLogs.splice(currentIndex, 1);
+        }
+        setSelectLogs(newSelectedOptionsLogs);
+        //setCurrentIndex(null);
+
+        break;
+      
+      case 'formations':
+        
+        setCurrentIndex(selectedOptionsFormations.indexOf(value));
+        setnewSelectedOptionsFormations([...selectedOptionsFormations]);
+        if (currentIndex === -1 || currentIndex === null) {
+          newSelectedOptionsFormations.push(value);
+        } else {
+          newSelectedOptionsFormations.splice(currentIndex, 1);
+        }
+        setSelectFormations(newSelectedOptionsFormations);
+        //setCurrentIndex(null);
+ 
+        break;
+    
+    } 
+    
   };
-  const handleSelectLogs = value => {
-    const currentIndex = selectedOptionsLogs.indexOf(value);
-    const newSelectedOptions = [...selectedOptionsLogs];
-    if (currentIndex === -1) {
-      newSelectedOptions.push(value);
-    } else {
-      newSelectedOptions.splice(currentIndex, 1);
-    }
-    setSelectLogs(newSelectedOptions);
-  };
-  const handleSelectFormations = value => {
-    const currentIndex = selectedOptionsFormations.indexOf(value);
-    const newSelectedOptions = [...selectedOptionsFormations];
-    if (currentIndex === -1) {
-      newSelectedOptions.push(value);
-    } else {
-      newSelectedOptions.splice(currentIndex, 1);
-    }
-    setSelectFormations(newSelectedOptions);
-  };
+
+
 
   const isSelectedWells = value => selectedOptionsWells.includes(value);
   const isSelectedLogs = value => selectedOptionsLogs.includes(value);
@@ -90,15 +153,15 @@ export default function Wellbore() {
                 <Grid item xs={4}>
                   <EsaList title="Wells" height={500}>
                     <List>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
+                      {Wells.map(
                         option => (
                           <ListItem
-                            key={option}
+                            key={option.id}
                             className={classes.listItem}
-                            selected={isSelectedWells(option)}
-                            onClick={() => handleSelectWells(option)}
+                            selected={isSelectedWells(option.id)}
+                            onClick={() => handleSelect(option.id, 'wells')}
                           >
-                          <ListItemText primary={`item-${option}`} />
+                          <ListItemText primary={option.name} />
                           </ListItem>
                         )
                       )}
@@ -114,7 +177,7 @@ export default function Wellbore() {
                             key={option}
                             className={classes.listItem}
                             selected={isSelectedLogs(option)}
-                            onClick={() => handleSelectLogs(option)}
+                            onClick={() => handleSelect(option, 'logs')}
                           >
                           <ListItemText primary={`item-${option}`} />
                           </ListItem>
@@ -132,7 +195,7 @@ export default function Wellbore() {
                             key={option}
                             className={classes.listItem}
                             selected={isSelectedFormations(option)}
-                            onClick={() => handleSelectFormations(option)}
+                            onClick={() => handleSelect(option, 'formations')}
                           >
                           <ListItemText primary={`item-${option}`} />
                           </ListItem>
