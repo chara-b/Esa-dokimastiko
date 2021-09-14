@@ -47,11 +47,6 @@ export default function Wellbore() {
   const [selectedOptionsLogs, setSelectLogs] = useState([]);
   const [selectedOptionsFormations, setSelectFormations] = useState([]);
 
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [newSelectedOptionsWells, setnewSelectedOptionsWells] = useState([]);
-  const [newSelectedOptionsLogs, setnewSelectedOptionsLogs] = useState([]);
-  const [newSelectedOptionsFormations, setnewSelectedOptionsFormations] = useState([]);
-
   const [Wells, setWells] = useState([]);
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
@@ -88,57 +83,44 @@ export default function Wellbore() {
     })
   });
 
-  const handleSelect = (value, portletselected)  => {
-
-    switch(portletselected) {
-      case 'wells':
-   
-        setCurrentIndex(selectedOptionsWells.indexOf(value));
-        setnewSelectedOptionsWells([...selectedOptionsWells]);
-        if (currentIndex === -1 || currentIndex === null) {
-          newSelectedOptionsWells.push(value);
+  const handleSelectWells = (value)  => {
+      const currentIndex = selectedOptionsWells.indexOf(value);
+      const newSelectedOptions = [...selectedOptionsWells];
+        if (currentIndex === -1) {
+          newSelectedOptions.push(value);
         } else {
-          newSelectedOptionsWells.splice(currentIndex, 1);
+          newSelectedOptions.splice(currentIndex, 1);
         }
-        setSelectWells(newSelectedOptionsWells);
-        // clean the consts currentIndex 
-        // so we don't get any conflict between cases from values saved inside the state of 
-        // these consts from previous selections
-        //setCurrentIndex(null);
-    
-        break;
-      
-      case 'logs':
-        
-        setCurrentIndex(selectedOptionsLogs.indexOf(value));
-        setnewSelectedOptionsLogs([...selectedOptionsLogs]);
-        if (currentIndex === -1 || currentIndex === null) {
-          newSelectedOptionsLogs.push(value);
-        } else {
-          newSelectedOptionsLogs.splice(currentIndex, 1);
-        }
-        setSelectLogs(newSelectedOptionsLogs);
-        //setCurrentIndex(null);
-
-        break;
-      
-      case 'formations':
-        
-        setCurrentIndex(selectedOptionsFormations.indexOf(value));
-        setnewSelectedOptionsFormations([...selectedOptionsFormations]);
-        if (currentIndex === -1 || currentIndex === null) {
-          newSelectedOptionsFormations.push(value);
-        } else {
-          newSelectedOptionsFormations.splice(currentIndex, 1);
-        }
-        setSelectFormations(newSelectedOptionsFormations);
-        //setCurrentIndex(null);
- 
-        break;
-    
-    } 
+        setSelectWells(newSelectedOptions);
     
   };
+
+  const handleSelectLogs = (value)  => {
+    const currentIndex = selectedOptionsLogs.indexOf(value);
+    const newSelectedOptions = [...selectedOptionsLogs];
+      if (currentIndex === -1) {
+        newSelectedOptions.push(value);
+      } else {
+        newSelectedOptions.splice(currentIndex, 1);
+      }
+      setSelectLogs(newSelectedOptions);
+  
+};
+
+const handleSelectFormations = (value)  => {
+  const currentIndex = selectedOptionsFormations.indexOf(value);
+  const newSelectedOptions = [...selectedOptionsFormations];
+    if (currentIndex === -1) {
+      newSelectedOptions.push(value);
+    } else {
+      newSelectedOptions.splice(currentIndex, 1);
+    }
+    setSelectFormations(newSelectedOptions);
+
+};
+
+
+
 
 
 
@@ -159,7 +141,7 @@ export default function Wellbore() {
                             key={option.id}
                             className={classes.listItem}
                             selected={isSelectedWells(option.id)}
-                            onClick={() => handleSelect(option.id, 'wells')}
+                            onClick={() => handleSelectWells(option.id)}
                           >
                           <ListItemText primary={option.name} />
                           </ListItem>
@@ -177,7 +159,7 @@ export default function Wellbore() {
                             key={option.id}
                             className={classes.listItem}
                             selected={isSelectedLogs(option.id)}
-                            onClick={() => handleSelect(option.id, 'logs')}
+                            onClick={() => handleSelectLogs(option.id)}
                           >
                           <ListItemText primary={option.log} />
                           </ListItem>
@@ -195,7 +177,7 @@ export default function Wellbore() {
                             key={option.id}
                             className={classes.listItem}
                             selected={isSelectedFormations(option.id)}
-                            onClick={() => handleSelect(option.id, 'formations')}
+                            onClick={() => handleSelectFormations(option.id)}
                           >
                           <ListItemText primary={option.name} />
                           </ListItem>
