@@ -65,27 +65,27 @@ export default function Wellbore() {
 		    return Promise.reject(wells);
 	    }
     }).then(wells => setWells(wells))
-    .then(() => {
+    .then(
 	    // Fetch logs after fetching wells
-	    return fetch('http://localhost:3000/logs').then(logs => {
+	    fetch('http://localhost:3000/logs').then(logs => {
         if (logs.ok) {
           return logs.json();
         } else {
           return Promise.reject(logs);
         };
-        }).then(logs => setLogs(logs))})
-    .then(() => {
+        }).then(logs => setLogs(logs)))
+    .then(
 	    // Fetch formations 
-	    return fetch('http://localhost:3000/formations').then(formations => {
+	    fetch('http://localhost:3000/formations').then(formations => {
         if (formations.ok) {
           return formations.json();
         } else {
           return Promise.reject(formations);
         };
-        }).then(formations => setFormations(formations))})
+      }).then(formations => setFormations(formations)))
     .catch(function (error) {
 	      console.log(error);
-    });
+    })
   });
 
   const handleSelect = (value, portletselected)  => {
@@ -171,15 +171,15 @@ export default function Wellbore() {
                 <Grid item xs={4}>
                   <EsaList title="Logs" height={500}>
                     <List>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
+                      {Logs.map(
                         option => (
                           <ListItem
-                            key={option}
+                            key={option.id}
                             className={classes.listItem}
-                            selected={isSelectedLogs(option)}
-                            onClick={() => handleSelect(option, 'logs')}
+                            selected={isSelectedLogs(option.id)}
+                            onClick={() => handleSelect(option.id, 'logs')}
                           >
-                          <ListItemText primary={`item-${option}`} />
+                          <ListItemText primary={option.name} />
                           </ListItem>
                         )
                       )}
@@ -189,15 +189,15 @@ export default function Wellbore() {
                 <Grid item xs={4}>
                   <EsaList title="Formations" height={450}>
                     <List>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
+                      {Formations.map(
                         option => (
                           <ListItem
-                            key={option}
+                            key={option.id}
                             className={classes.listItem}
-                            selected={isSelectedFormations(option)}
-                            onClick={() => handleSelect(option, 'formations')}
+                            selected={isSelectedFormations(option.id)}
+                            onClick={() => handleSelect(option.id, 'formations')}
                           >
-                          <ListItemText primary={`item-${option}`} />
+                          <ListItemText primary={option.name} />
                           </ListItem>
                         )
                       )}
