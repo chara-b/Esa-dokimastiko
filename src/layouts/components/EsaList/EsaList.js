@@ -19,7 +19,7 @@ const styles = theme => ({
     },
     portletContent: {
       height: 0,
-      minHeight: 500,
+     /* minHeight: 500, */
       display: 'flex',
       flexDirection: 'column'
     },
@@ -32,7 +32,7 @@ const styles = theme => ({
   
 const EsaList = props => {
 
-    const { classes, className, title, minheight, children, ...rest } = props;
+    const { classes, className, title, height, children, ...rest } = props;
     //const rootClassName = classNames(classes.root, className);
   
     return (
@@ -44,7 +44,7 @@ const EsaList = props => {
               <MoreVertIcon />
             </PortletToolbar>
           </PortletHeader>
-          <PortletContent className={classes.portletContent} noPadding>
+          <PortletContent className={classes.portletContent} style={{ height }} noPadding>
             {children}
           </PortletContent>
         </Portlet>
@@ -56,6 +56,7 @@ EsaList.propTypes = {
     children: PropTypes.node, // Anything that can be rendered: numbers, strings, elements or an array containing these types.
     className: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    height: PropTypes.number,
    // classes: PropTypes.object.isRequired
 };
   

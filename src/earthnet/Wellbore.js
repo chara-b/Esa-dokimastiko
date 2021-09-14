@@ -44,35 +44,59 @@ const useStyles = makeStyles(styles);
 
 export default function Wellbore() {
   const classes = useStyles();
-  const [selectedOptions, setSelect] = useState([]);
+  const [selectedOptionsWells, setSelectWells] = useState([]);
+  const [selectedOptionsLogs, setSelectLogs] = useState([]);
+  const [selectedOptionsFormations, setSelectFormations] = useState([]);
 
-  const handleSelect = value => {
-    const currentIndex = selectedOptions.indexOf(value);
-    const newSelectedOptions = [...selectedOptions];
+  const handleSelectWells = value => {
+    const currentIndex = selectedOptionsWells.indexOf(value);
+    const newSelectedOptions = [...selectedOptionsWells];
     if (currentIndex === -1) {
       newSelectedOptions.push(value);
     } else {
       newSelectedOptions.splice(currentIndex, 1);
     }
-    setSelect(newSelectedOptions);
+    setSelectWells(newSelectedOptions);
+  };
+  const handleSelectLogs = value => {
+    const currentIndex = selectedOptionsLogs.indexOf(value);
+    const newSelectedOptions = [...selectedOptionsLogs];
+    if (currentIndex === -1) {
+      newSelectedOptions.push(value);
+    } else {
+      newSelectedOptions.splice(currentIndex, 1);
+    }
+    setSelectLogs(newSelectedOptions);
+  };
+  const handleSelectFormations = value => {
+    const currentIndex = selectedOptionsFormations.indexOf(value);
+    const newSelectedOptions = [...selectedOptionsFormations];
+    if (currentIndex === -1) {
+      newSelectedOptions.push(value);
+    } else {
+      newSelectedOptions.splice(currentIndex, 1);
+    }
+    setSelectFormations(newSelectedOptions);
   };
 
-  const isSelected = value => selectedOptions.includes(value);
+  const isSelectedWells = value => selectedOptionsWells.includes(value);
+  const isSelectedLogs = value => selectedOptionsLogs.includes(value);
+  const isSelectedFormations = value => selectedOptionsFormations.includes(value);
 
   return (
     <Dashboard>  
       <Grid container spacing={1} className={classes.fullHeight}>
-              <Grid item xs={12} md={6} container spacing={2} style={{backgroundColor: 'black'}}>  
+              <Grid item xs={12} md={6} container spacing={2}>  
                 <Grid item xs={4}>
-                  <EsaList title="Wells" >
+                  <EsaList title="Wells" height={500}>
                     <List>
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
                         option => (
                           <ListItem
                             key={option}
                             className={classes.listItem}
-                            selected={isSelected(option)}
-                            onClick={() => handleSelect(option)}
+                            selected={isSelectedWells(option)}
+                            onClick={() => handleSelectWells(option)}
                           >
                           <ListItemText primary={`item-${option}`} />
                           </ListItem>
@@ -82,15 +106,15 @@ export default function Wellbore() {
                   </EsaList>
                 </Grid>
                 <Grid item xs={4}>
-                  <EsaList title="Logs" >
+                  <EsaList title="Logs" height={500}>
                     <List>
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
                         option => (
                           <ListItem
                             key={option}
                             className={classes.listItem}
-                            selected={isSelected(option)}
-                            onClick={() => handleSelect(option)}
+                            selected={isSelectedLogs(option)}
+                            onClick={() => handleSelectLogs(option)}
                           >
                           <ListItemText primary={`item-${option}`} />
                           </ListItem>
@@ -100,15 +124,15 @@ export default function Wellbore() {
                   </EsaList>
                 </Grid>
                 <Grid item xs={4}>
-                  <EsaList title="Formations" >
+                  <EsaList title="Formations" height={450}>
                     <List>
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(
                         option => (
                           <ListItem
                             key={option}
                             className={classes.listItem}
-                            selected={isSelected(option)}
-                            onClick={() => handleSelect(option)}
+                            selected={isSelectedFormations(option)}
+                            onClick={() => handleSelectFormations(option)}
                           >
                           <ListItemText primary={`item-${option}`} />
                           </ListItem>
@@ -122,7 +146,7 @@ export default function Wellbore() {
                 </Grid>
               </Grid>
       
-              <Grid item xs={12} md={6} container spacing={2} style={{backgroundColor: 'blue'}}>
+              <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
                 <div className={classes.logoContainer}>
                   <EsaLogo />
                 </div>
