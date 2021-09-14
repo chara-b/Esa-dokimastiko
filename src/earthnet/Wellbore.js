@@ -51,6 +51,7 @@ export default function Wellbore() {
   const [Wells, setWells] = useState([]);
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
+  const [plot, setPLot] = useState([]);
   const [activateButton, setActivateButton] = useState(true);
 
   useEffect(() => {   
@@ -135,17 +136,32 @@ const handleSelectFormations = (value)  => {
 
 
   const showPlot = (value)  => {
+    
+    const newArr = selectedOptionsWells.map(Math.sqrt)
+    // Fetch plot
+    fetch('http://localhost:8000/plots?wellId=1&wellId=2').then(plot => {
+	    if (plot.ok) {
+		    return plot.json();
+	    } else {
+		    return Promise.reject(plot);
+	    }
+    }).then(plot => setPlot(plot))
+    .catch(function (error) {
+      console.log(error);
+    }) 
+
+
     return (
       <Plot
         data={[
           {
-            x: [1, 2, 3],
-            y: [2, 6, 3],
+            x: plot.x,
+            y: plot.y,
             type: 'scatter',
             mode: 'lines+markers',
             marker: {color: 'red'},
           },
-          {type: 'bar', x: [1, 2, 3], y: [2, 5, 3]},
+          {type: 'bar', x: plot.x, y: plot.y},
         ]}
         layout={ {width: 320, height: 240, title: 'A Fancy Plot'} }
       />
