@@ -54,48 +54,7 @@ export default function Wellbore() {
   const [activateButton, setActivateButton] = useState(true);
 
   useEffect(() => {   
-    
-    const url1 = "http://localhost:3000/wells";
-    const url2 = "http://localhost:3000/logs";
-    const url3 = "http://localhost:3000/formations";
-
-    const fetchWells = async () => {
-      try {
-        const wells_response = await fetch(url1);
-        const wells_json = await wells_response.json();
-        setWells(wells_json);
-       // console.log(json);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-
-    const fetchLogs = async () => {
-      try {
-        const logs_response = await fetch(url2);
-        const logs_json = await logs_response.json();
-        setLogs(logs_json);
-       // console.log(json);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-
-    const fetchFormations = async () => {
-      try {
-        const formations_response = await fetch(url3);
-        const formations_json = await formations_response.json();
-        setLogs(formations_json);
-       // console.log(json);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-
-    fetchWells();
-    fetchLogs();
-    fetchFormations();
-    /* Fetch wells
+   // Fetch wells
     fetch('http://localhost:3000/wells').then(wells => {
 	    if (wells.ok) {
 		    return wells.json();
@@ -123,8 +82,8 @@ export default function Wellbore() {
       }).then(formations => setFormations(formations)))
     .catch(function (error) {
 	      console.log(error);
-    }) */
-  },[]);
+    }) 
+  }, []);
 
   const handleSelectWells = (value)  => {
       const currentIndex = selectedOptionsWells.indexOf(value);
