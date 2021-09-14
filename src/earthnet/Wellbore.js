@@ -179,7 +179,7 @@ export default function Wellbore() {
                             selected={isSelectedLogs(option.id)}
                             onClick={() => handleSelect(option.id, 'logs')}
                           >
-                          <ListItemText primary={option.name} />
+                          <ListItemText primary={option.log} />
                           </ListItem>
                         )
                       )}
