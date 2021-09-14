@@ -4,6 +4,7 @@ import EsaList from '../layouts/components/EsaList/EsaList';
 import EsaButton from '../layouts/components/EsaButton/EsaButton';
 import { makeStyles, Grid, List, ListItem, ListItemText } from '@material-ui/core';
 import EsaLogo from '../EsaLogo';
+import Plot from 'react-plotly.js';
 
 const styles = theme => ({
   root: {
@@ -50,6 +51,7 @@ export default function Wellbore() {
   const [Wells, setWells] = useState([]);
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
+  const [activateButton, setActivateButton] = useState(false);
 
   useEffect(() => {    
     // Fetch wells
@@ -92,6 +94,9 @@ export default function Wellbore() {
           newSelectedOptions.splice(currentIndex, 1);
         }
         setSelectWells(newSelectedOptions);
+        if(selectedOptionsWells.length >= 1 && selectedOptionsLogs.length >= 1 && selectedOptionsFormations.length >= 1){
+          setActivateButton(true);
+        }
     
   };
 
@@ -104,7 +109,9 @@ export default function Wellbore() {
         newSelectedOptions.splice(currentIndex, 1);
       }
       setSelectLogs(newSelectedOptions);
-  
+      if(selectedOptionsWells.length >= 1 && selectedOptionsLogs.length >= 1 && selectedOptionsFormations.length >= 1){
+        setActivateButton(true);
+      }
 };
 
 const handleSelectFormations = (value)  => {
@@ -116,17 +123,35 @@ const handleSelectFormations = (value)  => {
       newSelectedOptions.splice(currentIndex, 1);
     }
     setSelectFormations(newSelectedOptions);
-
+    if(selectedOptionsWells.length >= 1 && selectedOptionsLogs.length >= 1 && selectedOptionsFormations.length >= 1){
+      setActivateButton(true);
+    }
 };
-
-
-
-
 
 
   const isSelectedWells = value => selectedOptionsWells.includes(value);
   const isSelectedLogs = value => selectedOptionsLogs.includes(value);
   const isSelectedFormations = value => selectedOptionsFormations.includes(value);
+
+
+  const showPlot = (value)  => {
+    return (
+      <Plot
+        data={[
+          {
+            x: [1, 2, 3],
+            y: [2, 6, 3],
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: 'red'},
+          },
+          {type: 'bar', x: [1, 2, 3], y: [2, 5, 3]},
+        ]}
+        layout={ {width: 320, height: 240, title: 'A Fancy Plot'} }
+      />
+    );
+  };
+
 
   return (
     <Dashboard>  
@@ -185,7 +210,7 @@ const handleSelectFormations = (value)  => {
                       )}
                     </List>
                   </EsaList>
-                  <EsaButton fullWidth className={classes.button}>
+                  <EsaButton fullWidth className={classes.button} disabled={activateButton} onClick={() => showPlot()}>
                     Show Plot
                   </EsaButton>
                 </Grid>
