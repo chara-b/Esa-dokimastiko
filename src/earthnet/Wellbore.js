@@ -94,8 +94,8 @@ export default function Wellbore() {
           newSelectedOptions.splice(currentIndex, 1);
         }
         setSelectWells(newSelectedOptions);
-        if(selectedOptionsWells.length >= 1 & selectedOptionsLogs.length >= 1 & selectedOptionsFormations.length >= 1){
-          setActivateButton(true);
+        if(selectedOptionsWells.length == 0 && selectedOptionsLogs.length > 0 && selectedOptionsFormations.length > 0){
+          setActivateButton(false);
         }
     
   };
@@ -109,8 +109,8 @@ export default function Wellbore() {
         newSelectedOptions.splice(currentIndex, 1);
       }
       setSelectLogs(newSelectedOptions);
-      if(selectedOptionsWells.length >= 1 & selectedOptionsLogs.length >= 1 & selectedOptionsFormations.length >= 1){
-        setActivateButton(true);
+      if(selectedOptionsWells.length > 0 && selectedOptionsLogs.length == 0 && selectedOptionsFormations.length > 0){
+        setActivateButton(false);
       }
 };
 
@@ -123,8 +123,8 @@ const handleSelectFormations = (value)  => {
       newSelectedOptions.splice(currentIndex, 1);
     }
     setSelectFormations(newSelectedOptions);
-    if(selectedOptionsWells.length >= 1 & selectedOptionsLogs.length >= 1 & selectedOptionsFormations.length >= 1){
-      setActivateButton(true);
+    if(selectedOptionsWells.length > 0 && selectedOptionsLogs.length > 0 && selectedOptionsFormations.length == 0){
+      setActivateButton(false);
     }
 };
 
