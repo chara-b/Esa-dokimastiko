@@ -1,4 +1,5 @@
 import React, { useState, useEffect }  from 'react';
+import ReactDOM from 'react-dom';
 import Dashboard from '../layouts/Dashboard/Dashboard';
 import EsaList from '../layouts/components/EsaList/EsaList';
 import EsaButton from '../layouts/components/EsaButton/EsaButton';
@@ -52,7 +53,7 @@ export default function Wellbore() {
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
   const [plot, setPlot] = useState([]); // holds the data to be passed in the plot 
-  const [plotView, setPlotView] = useState(''); // holds the final html string of the plot
+  const [plotView, setPlotView] = useState(); // holds the final html string of the plot
  // const [showPlotSwitch, setshowPlotSwitch] = useState('visible'); // this acts like an on/off switch
   const [activateButton, setActivateButton] = useState(true);
 
@@ -86,7 +87,9 @@ export default function Wellbore() {
     .catch(function (error) {
 	      console.log(error);
     }) 
-  }, []);
+
+    ReactDOM.render(plotView, document.getElementById('plot'));
+  }, [plotView]);
 
   const handleSelectWells = (value)  => {
       const currentIndex = selectedOptionsWells.indexOf(value);
@@ -156,15 +159,16 @@ const handleSelectFormations = (value)  => {
 	    }
     }).then(plot => {
       setPlot(plot);
-      setPlotView(`<Plot data={[{ x: ${plot[0].x}, y: ${plot[0].y}, type: 'scatter', marker: {color: 'red'},},]} layout={ {width: 320, height: 240, title: 'A Fancy Plot'} } />`);
+      setPlotView(<Plot data={[{ x: plot[0].x, y: plot[0].y, type: 'scatter', marker: {color: 'red'},},]} layout={ {width: 320, height: 240, title: 'A Fancy Plot'}}/>);
       //document.getElementById("plot").innerHTML = plotView;
       //setshowPlotSwitch('hidden');
+   
     })
     .catch(function (error) {
       console.log(error);
     }) 
 
-    
+
 
   };
 
@@ -233,9 +237,11 @@ const handleSelectFormations = (value)  => {
               </Grid>
       
               <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
-                <div className={classes.logoContainer} id="plot"> 
-                  <EsaLogo />
+              <div id="plot"> 
+                <div className={classes.logoContainer}> 
+                  <EsaLogo />            
                 </div>
+              </div>
               </Grid>
       </Grid>
     </Dashboard>
