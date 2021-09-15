@@ -51,7 +51,9 @@ export default function Wellbore() {
   const [Wells, setWells] = useState([]);
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
-  const [plot, setPlot] = useState([]);
+  const [plot, setPlot] = useState([]); // holds the data to be passed in the plot 
+  const [plotView, setPlotView] = useState(''); // holds the final html string of the plot
+ // const [showPlotSwitch, setshowPlotSwitch] = useState('visible'); // this acts like an on/off switch
   const [activateButton, setActivateButton] = useState(true);
 
   useEffect(() => {   
@@ -152,27 +154,18 @@ const handleSelectFormations = (value)  => {
 	    } else {
 		    return Promise.reject(plot);
 	    }
-    }).then(plot => setPlot(plot))
+    }).then(plot => {
+      setPlot(plot);
+      setPlotView(`<Plot data={[{ x: ${plot[0].x}, y: ${plot[0].y}, type: 'scatter', marker: {color: 'red'},},]} layout={ {width: 320, height: 240, title: 'A Fancy Plot'} } />`);
+      //document.getElementById("plot").innerHTML = plotView;
+      //setshowPlotSwitch('hidden');
+    })
     .catch(function (error) {
       console.log(error);
     }) 
 
+    
 
-    return (
-      <Plot
-        data={[
-          {
-            x: plot.x,
-            y: plot.y,
-            type: 'scatter',
-            mode: 'lines+markers',
-            marker: {color: 'red'},
-          },
-          {type: 'bar', x: plot.x, y: plot.y},
-        ]}
-        layout={ {width: 320, height: 240, title: 'A Fancy Plot'} }
-      />
-    );
   };
 
 
@@ -240,7 +233,7 @@ const handleSelectFormations = (value)  => {
               </Grid>
       
               <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
-                <div className={classes.logoContainer}>
+                <div className={classes.logoContainer} id="plot"> 
                   <EsaLogo />
                 </div>
               </Grid>
