@@ -249,7 +249,7 @@ const handleSelectFormations = (value)  => {
               </Grid>
       
               <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
-              <div id="plot">  </div>
+                <div id="plot"></div>
                 <div className={classes.logoContainer}> 
                   <EsaLogo />            
                 </div>
