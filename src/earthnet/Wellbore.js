@@ -53,8 +53,7 @@ export default function Wellbore() {
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
   const [plot, setPlot] = useState([]); // holds the data to be passed in the plot 
-  const [plotView, setPlotView] = useState(); // holds the final html string of the plot
- // const [showPlotSwitch, setshowPlotSwitch] = useState('visible'); // this acts like an on/off switch
+  const [plotView, setPlotView] = useState(null); // holds the final html string of the plot
   const [activateButton, setActivateButton] = useState(true);
 
   useEffect(() => {   
@@ -88,7 +87,10 @@ export default function Wellbore() {
 	      console.log(error);
     }) 
 
-    ReactDOM.render(plotView, document.getElementById('plot'));
+    if(plotView !== null){
+      ReactDOM.render(plotView, document.getElementById('plot'));
+    }
+
   }, [plotView]);
 
   const handleSelectWells = (value)  => {
@@ -171,8 +173,7 @@ const handleSelectFormations = (value)  => {
       });
       
       setPlotView(<Plot data={data} layout={{ title: 'Wells Plot'}}/>);
-      //document.getElementById("plot").innerHTML = plotView;
-      //setshowPlotSwitch('hidden');
+
    
     })
     .catch(function (error) {
@@ -248,11 +249,10 @@ const handleSelectFormations = (value)  => {
               </Grid>
       
               <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
-              <div id="plot"> 
+              <div id="plot">  </div>
                 <div className={classes.logoContainer}> 
                   <EsaLogo />            
                 </div>
-              </div>
               </Grid>
       </Grid>
     </Dashboard>
