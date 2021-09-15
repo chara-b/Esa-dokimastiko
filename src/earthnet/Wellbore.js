@@ -51,7 +51,7 @@ export default function Wellbore() {
   const [Wells, setWells] = useState([]);
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
-  const [plot, setPLot] = useState([]);
+  const [plot, setPlot] = useState([]);
   const [activateButton, setActivateButton] = useState(true);
 
   useEffect(() => {   
@@ -136,10 +136,17 @@ const handleSelectFormations = (value)  => {
 
 
   const showPlot = (value)  => {
-    
-    const newArr = selectedOptionsWells.map(Math.sqrt)
+    let url = 'http://localhost:8000/plots?';
+    const params = selectedOptionsWells.map(url_params => (`wellId=${url_params}&`));
+    const param = params[params.length - 1].slice(0, -1); // cleans the last '&' character that is attached by the above line inside the map function to the last element
+    params.pop();// now remove from array the last item containing the '&'
+    params.push(param); // and finally attach at the end of the array the corrected last string element cause the url doesnt need an extra '&' at the very end
+
+    params.forEach(param => {
+      url = url.concat(param); // create the final url string 
+    });
     // Fetch plot
-    fetch('http://localhost:8000/plots?wellId=1&wellId=2').then(plot => {
+    fetch(url).then(plot => {
 	    if (plot.ok) {
 		    return plot.json();
 	    } else {
