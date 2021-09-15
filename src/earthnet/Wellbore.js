@@ -159,7 +159,18 @@ const handleSelectFormations = (value)  => {
 	    }
     }).then(plot => {
       setPlot(plot);
-      setPlotView(<Plot data={[{ x: plot[0].x, y: plot[0].y, type: 'scatter', marker: {color: 'red'},},]} layout={ {width: 320, height: 240, title: 'A Fancy Plot'}}/>);
+      const data = [];
+      plot.forEach(element => {
+        const obj = {
+          x: element.x, 
+          y: element.y, 
+          type: 'scatter',
+          'name': 'wellid-'+element.wellId
+        };
+        data.push(obj);
+      });
+      
+      setPlotView(<Plot data={data} layout={{ title: 'Wells Plot'}}/>);
       //document.getElementById("plot").innerHTML = plotView;
       //setshowPlotSwitch('hidden');
    
