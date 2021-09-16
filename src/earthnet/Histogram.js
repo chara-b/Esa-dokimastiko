@@ -244,25 +244,26 @@ const handleSelectFormations = (value)  => {
 
 
   const changeBarMode = (value)  => {
+    var barmode_local_var = '';
     switch (value){
       case 1:
-        setBarMode('group');
+        barmode_local_var = 'group'
         onChangeSingle({
           leftselect: value,
           rightselect: singleValue.rightselect
         });
         if(plotView !== null){
-          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode }}/>);
+          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode_local_var }}/>);
         }
         break;
       case 2:
-        setBarMode('stack');
+        barmode_local_var = 'stack'
         onChangeSingle({
           leftselect: value,
           rightselect: singleValue.rightselect
         });
         if(plotView !== null){
-          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode }}/>);
+          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode_local_var }}/>);
         }
         break;
     }
