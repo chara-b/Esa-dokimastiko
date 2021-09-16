@@ -50,8 +50,6 @@ const useStyles = makeStyles(styles);
 
 export default function Wellbore() {
   const classes = useStyles();
-  const [singleValue, onChangeSingle] = useState(1);
-  const [singleValue2, onChangeSingle2] = useState(1);
 
   const [selectedOptionsWells, setSelectWells] = useState([]);
   const [selectedOptionsLogs, setSelectLogs] = useState([]);
@@ -63,6 +61,12 @@ export default function Wellbore() {
   const [plot, setPlot] = useState([]); // holds the data to be passed in the plot 
   const [plotView, setPlotView] = useState(null); // holds the final html string of the plot
   const [activateButton, setActivateButton] = useState(true);
+
+  const [orientation, setOrientation] = useState('v');
+  const [barmode, setBarMode] = useState('group');
+
+  const [singleValue, onChangeSingle] = useState({leftselect: 1, rightselect: 1});
+
 
   useEffect(() => {   
    // Fetch wells
@@ -175,12 +179,13 @@ const handleSelectFormations = (value)  => {
           x: element.x, 
           y: element.y, 
           type: 'histogram',
+          orientation: orientation,
           'name': 'wellid-'+element.wellId
         };
         data.push(obj);
       });
       
-      setPlotView(<Plot data={data} layout={{ title: 'Wells Plot'}}/>);
+      setPlotView(<Plot data={data} layout={{ title: 'Wells Plot', barmode: barmode}}/>);
 
    
     })
@@ -192,6 +197,45 @@ const handleSelectFormations = (value)  => {
 
   };
 
+  const changeOrientation = (value)  => {
+    switch (value){
+      case 1:
+        setOrientation('v');
+        onChangeSingle({
+          leftselect: singleValue.leftselect,
+          rightselect: value
+        });
+
+        break;
+      case 2:
+        setOrientation('h');
+        onChangeSingle({
+          leftselect: singleValue.leftselect,
+          rightselect: value
+        });
+        break;
+    }
+  }
+
+
+  const changeBarMode = (value)  => {
+    switch (value){
+      case 1:
+        setBarMode('group');
+        onChangeSingle({
+          leftselect: value,
+          rightselect: singleValue.rightselect
+        });
+        break;
+      case 2:
+        setBarMode('stack');
+        onChangeSingle({
+          leftselect: value,
+          rightselect: singleValue.rightselect
+        });
+        break;
+    }
+  }
 
   return (
     <Dashboard>         
@@ -204,23 +248,23 @@ const handleSelectFormations = (value)  => {
                   <Grid item xs={6}>
                     <EsaSelect
                       label="Bar Mode"
-                      value={singleValue}
+                      value={singleValue.leftselect}
                       options={[
                         { key: 'group', value: 1, text: 'group' },
                         { key: 'stack', value: 2, text: 'stack' }
                       ]}
-                      onChange={value => onChangeSingle(value)}
+                      onChange={value => changeBarMode(value)}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <EsaSelect
                       label="Orientation"
-                      value={singleValue2}
+                      value={singleValue.rightselect}
                       options={[
                         { key: 'vertical', value: 1, text: 'vertical' },
                         { key: 'horizontal', value: 2, text: 'horizontal' }
                       ]}
-                      onChange={value => onChangeSingle2(value)}
+                      onChange={value => changeOrientation(value)}
                     />
                   </Grid>
                 </Grid>
