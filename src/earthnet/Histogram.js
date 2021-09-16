@@ -67,6 +67,17 @@ export default function Wellbore() {
 
   const [singleValue, onChangeSingle] = useState({leftselect: 1, rightselect: 1});
 
+  // Set up a piece of state to keep track of
+  // whether the logo component is shown or hidden
+  // we need to unmount this component in order to render inside useeffect the new one
+  // with our plot, otherwise the divs of plot component and logo component in the template
+  // must be the one under the other and this will lead the app to push the logo component
+  // down and render the plot component above it without making the logo component disappear completely
+  // on the other hand if the divs of these 2 components are nested we'll end up with an error telling us 
+  // that we can not re-render and try to replace the child component (which is the logo component) that is
+  // already rendered with a new component (which is the plot component)
+  const [mounted, setMounted] = useState(true);
+
 
   useEffect(() => {   
    // Fetch wells
@@ -100,6 +111,9 @@ export default function Wellbore() {
     }) 
 
     if(plotView !== null){
+    // This function will unmount and re-mount the
+    // logo component, so we can render the new component with our plot
+      setMounted(!mounted);
       ReactDOM.render(plotView, document.getElementById('plot'));
     }
 
@@ -205,6 +219,7 @@ const handleSelectFormations = (value)  => {
           leftselect: singleValue.leftselect,
           rightselect: value
         });
+        showPlot();
 
         break;
       case 2:
@@ -213,6 +228,8 @@ const handleSelectFormations = (value)  => {
           leftselect: singleValue.leftselect,
           rightselect: value
         });
+        showPlot();
+        
         break;
     }
   }
@@ -331,9 +348,11 @@ const handleSelectFormations = (value)  => {
               </Grid>
       
               <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
-                <div id="plot"></div>
+                <div id="plot">
                 <div className={classes.logoContainer}> 
-                  <EsaLogo />            
+                {mounted && <EsaLogo />}
+                      
+                </div>
                 </div>
               </Grid>
       </Grid>
