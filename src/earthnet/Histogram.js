@@ -67,6 +67,9 @@ export default function Wellbore() {
 
   const [singleValue, onChangeSingle] = useState({leftselect: 1, rightselect: 1});
 
+  const [class_, setClass] = useState(classes.logoContainer);
+  const [plotdata, setPlotData] = useState([]);
+
 
   // Set up a piece of state to keep track of
   // whether the logo component is shown or hidden
@@ -108,9 +111,11 @@ export default function Wellbore() {
     // This function will unmount and re-mount the
     // logo component, so we can render the new component with our plot
     //  setMounted(!mounted);
+      setClass('');
       ReactDOM.render(plotView, document.getElementById('plot'));
     } else {
-      ReactDOM.render(<div className={classes.logoContainer}><EsaLogo /></div>, document.getElementById('plot'));
+      setClass('logo');
+      ReactDOM.render(<EsaLogo/>, document.getElementById('plot'));
     }
 
   }, [plotView]);
@@ -194,8 +199,9 @@ const handleSelectFormations = (value)  => {
         };
         data.push(obj);
       });
-      
-      setPlotView(<Plot data={data} layout={{ title: 'Wells Plot', barmode: barmode}}/>);
+
+      setPlotData(data);
+      setPlotView(<Plot data={data} layout={{ title: 'Wells Plot', barmode: barmode }}/>);
 
    
     })
@@ -216,7 +222,8 @@ const handleSelectFormations = (value)  => {
           rightselect: value
         });
         if(plotView !== null){
-          showPlot();
+          plotdata.map((obj) => obj.orientation = 'v');
+          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode }}/>);
         }
 
         break;
@@ -227,7 +234,8 @@ const handleSelectFormations = (value)  => {
           rightselect: value
         });
         if(plotView !== null){
-          showPlot();
+          plotdata.map((obj) => obj.orientation = 'h');
+          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode }}/>);
         }
         
         break;
@@ -244,7 +252,7 @@ const handleSelectFormations = (value)  => {
           rightselect: singleValue.rightselect
         });
         if(plotView !== null){
-          showPlot();
+          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode }}/>);
         }
         break;
       case 2:
@@ -254,7 +262,7 @@ const handleSelectFormations = (value)  => {
           rightselect: singleValue.rightselect
         });
         if(plotView !== null){
-          showPlot();
+          setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode }}/>);
         }
         break;
     }
@@ -354,7 +362,7 @@ const handleSelectFormations = (value)  => {
               </Grid>
       
               <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
-                <div id="plot">  
+                <div id="plot" className={class_ === "logo" ? classes.logoContainer: ''}>  
       
                 </div>
               </Grid>
