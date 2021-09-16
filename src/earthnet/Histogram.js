@@ -247,22 +247,26 @@ const handleSelectFormations = (value)  => {
     var barmode_local_var = '';
     switch (value){
       case 1:
-        barmode_local_var = 'group'
+        setBarMode('group'); // we need this in case it select element is clicked at first time where no plot exist and we need to click the button to display it , then we need to keep the state so we assign it to the plot properties inside showPlot method and not here
+        barmode_local_var = 'group' // we need this only for this method because the asynchronous code we have updates after the rendering of the plot this state leaving us without data to pass in the properties of the plot
         onChangeSingle({
           leftselect: value,
           rightselect: singleValue.rightselect
         });
         if(plotView !== null){
+          plotdata.map((obj) => obj.orientation = orientation);
           setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode_local_var }}/>);
         }
         break;
       case 2:
+        setBarMode('stack'); 
         barmode_local_var = 'stack'
         onChangeSingle({
           leftselect: value,
           rightselect: singleValue.rightselect
         });
         if(plotView !== null){
+          plotdata.map((obj) => obj.orientation = orientation);
           setPlotView(<Plot data={plotdata} layout={{ title: 'Wells Plot', barmode: barmode_local_var }}/>);
         }
         break;

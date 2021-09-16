@@ -6,6 +6,7 @@ import EsaButton from '../layouts/components/EsaButton/EsaButton';
 import { makeStyles, Grid, List, ListItem, ListItemText } from '@material-ui/core';
 import EsaLogo from '../EsaLogo';
 import Plot from 'react-plotly.js';
+import store from '../store';
 
 const styles = theme => ({
   root: {
