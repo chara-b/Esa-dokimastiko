@@ -70,7 +70,7 @@ export default function Wellbore() {
 
   // Set up a piece of state to keep track of
   // whether the logo component is shown or hidden
-  const [mounted, setMounted] = useState(true);
+  //const [mounted, setMounted] = useState(true);
 
 
   useEffect(() => {   
@@ -107,8 +107,10 @@ export default function Wellbore() {
     if(plotView !== null){
     // This function will unmount and re-mount the
     // logo component, so we can render the new component with our plot
-      setMounted(!mounted);
+    //  setMounted(!mounted);
       ReactDOM.render(plotView, document.getElementById('plot'));
+    } else {
+      ReactDOM.render(<div className={classes.logoContainer}><EsaLogo /></div>, document.getElementById('plot'));
     }
 
   }, [plotView]);
@@ -353,9 +355,7 @@ const handleSelectFormations = (value)  => {
       
               <Grid item xs={12} md={6} container spacing={0} style={{marginLeft: '16px'}}>
                 <div id="plot">  
-                <div className={classes.logoContainer}> 
-                {mounted &&  <EsaLogo />}
-                </div>
+      
                 </div>
               </Grid>
       </Grid>
