@@ -23,7 +23,7 @@ function App() {
 
 const mapStateToProps = state => ({ state });
 const mapDispatchToProps = {};
-export default connect(
+export default connect( // connects the app component to the redux store
   mapStateToProps,
   mapDispatchToProps
 )(App);

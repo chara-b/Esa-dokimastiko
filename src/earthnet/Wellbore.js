@@ -6,7 +6,9 @@ import EsaButton from '../layouts/components/EsaButton/EsaButton';
 import { makeStyles, Grid, List, ListItem, ListItemText } from '@material-ui/core';
 import EsaLogo from '../EsaLogo';
 import Plot from 'react-plotly.js';
-import store from '../store';
+
+
+
 
 const styles = theme => ({
   root: {
@@ -44,7 +46,7 @@ const styles = theme => ({
 const useStyles = makeStyles(styles);
 
 
-export default function Wellbore() {
+export default function Wellbore(props) {
   const classes = useStyles();
   const [selectedOptionsWells, setSelectWells] = useState([]);
   const [selectedOptionsLogs, setSelectLogs] = useState([]);
@@ -54,8 +56,9 @@ export default function Wellbore() {
   const [Logs, setLogs] = useState([]);
   const [Formations, setFormations] = useState([]);
   const [plot, setPlot] = useState([]); // holds the data to be passed in the plot 
-  const [plotView, setPlotView] = useState(null); // holds the final html string of the plot
+  const [plotView, setPlotView] = useState(null); // holds the final <Plot></Plot> of the plot, if null means the 'show plot' button is not clicked yet!
   const [activateButton, setActivateButton] = useState(true);
+
 
   useEffect(() => {   
    // Fetch wells
@@ -89,7 +92,7 @@ export default function Wellbore() {
     }) 
 
     if(plotView !== null){
-      ReactDOM.render(plotView, document.getElementById('plot'));
+      ReactDOM.render(plotView, document.getElementById('plot'));      
     }
 
   }, [plotView]);
